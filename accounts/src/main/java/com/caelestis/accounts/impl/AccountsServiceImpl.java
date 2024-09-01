@@ -1,10 +1,13 @@
 package com.caelestis.accounts.impl;
 
 import com.caelestis.accounts.contants.AccountsConstants;
+import com.caelestis.accounts.dto.AccountsDto;
 import com.caelestis.accounts.dto.CustomerDto;
 import com.caelestis.accounts.entity.Accounts;
 import com.caelestis.accounts.entity.Customer;
 import com.caelestis.accounts.exception.CustomerAlreadyExistsException;
+import com.caelestis.accounts.exception.ResourceNotFoundException;
+import com.caelestis.accounts.mapper.AccountsMapper;
 import com.caelestis.accounts.mapper.CustomerMapper;
 import com.caelestis.accounts.repository.AccountsRepository;
 import com.caelestis.accounts.repository.CustomerRepository;
@@ -54,4 +57,20 @@ public class AccountsServiceImpl implements IAccountsService {
     private Long randomNumber(){
         return 1000000000L + new Random().nextInt(900000000);
     }
+
+    @Override
+    public CustomerDto fetchAccount(String mobileNumber) {
+        Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () -> new ResourceNotFoundException("Customer","mobileNumber",mobileNumber)
+        );
+        Accounts account = accountsRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
+                () -> new ResourceNotFoundException("Account","customerId",customer.getCustomerId().toString())
+        );
+
+        CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
+        customerDto.setAccountsDto(AccountsMapper.mapToAccountsDto(account, new AccountsDto()));
+        return customerDto;
+    }
+
+
 }
