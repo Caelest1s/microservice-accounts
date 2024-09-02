@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class AccountController {
 
-    private final String ERROR_NUMBER = "Mobile number must be 11 digits";
-    private final String ONLY_NUMBER = "(^$|[0-9]{11})";
+    private final String ERR_MESSAGE_MOBILE = "Mobile number must be 11 digits";
+    private final String VALID_MOBILE_NUMBER = "(^$|[0-9]{11})";
 
     private IAccountsService iAccountsService;
 
@@ -34,9 +34,8 @@ public class AccountController {
     }
 
     @GetMapping("/fetch")
-    public ResponseEntity<CustomerDto> fetchAccountDetails(@RequestParam
-                                                               @Pattern(regexp = ONLY_NUMBER, message = ERROR_NUMBER)
-                                                               String mobileNumber){
+    public ResponseEntity<CustomerDto> fetchAccountDetails(
+            @RequestParam @Pattern(regexp = VALID_MOBILE_NUMBER, message = ERR_MESSAGE_MOBILE) String mobileNumber){
         CustomerDto customerDto = iAccountsService.fetchAccount(mobileNumber);
         return ResponseEntity.status(HttpStatus.OK).body(customerDto);
     }
@@ -54,9 +53,8 @@ public class AccountController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<ResponseDto> deleteAccountDetails(@RequestParam
-                                                                @Pattern(regexp = ONLY_NUMBER, message = ERROR_NUMBER)
-                                                                String mobileNumber){
+    public ResponseEntity<ResponseDto> deleteAccountDetails(
+            @RequestParam @Pattern(regexp = VALID_MOBILE_NUMBER, message = ERR_MESSAGE_MOBILE) String mobileNumber){
         boolean isDeleted = iAccountsService.deleteAccount(mobileNumber);
         if (isDeleted) {
             return ResponseEntity.status(HttpStatus.OK)
