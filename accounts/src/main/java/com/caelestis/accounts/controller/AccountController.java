@@ -3,9 +3,12 @@ package com.caelestis.accounts.controller;
 import com.caelestis.accounts.contants.AccountsConstants;
 import com.caelestis.accounts.dto.AccountsDto;
 import com.caelestis.accounts.dto.CustomerDto;
+import com.caelestis.accounts.dto.ErrorResponseDto;
 import com.caelestis.accounts.dto.ResponseDto;
 import com.caelestis.accounts.service.IAccountsService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -76,7 +79,10 @@ public class AccountController {
             ),
             @ApiResponse(
                     responseCode = "500",
-                    description = "HTTP Status Internal Server Error"
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
             )
     })
     @PutMapping("/update")
@@ -102,7 +108,10 @@ public class AccountController {
             ),
             @ApiResponse(
                     responseCode = "500",
-                    description = "HTTP Status Internal Server Error"
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
             )
     })
     @DeleteMapping("/delete")
