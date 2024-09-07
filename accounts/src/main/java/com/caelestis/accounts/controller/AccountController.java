@@ -1,7 +1,6 @@
 package com.caelestis.accounts.controller;
 
 import com.caelestis.accounts.contants.AccountsConstants;
-import com.caelestis.accounts.dto.AccountsDto;
 import com.caelestis.accounts.dto.CustomerDto;
 import com.caelestis.accounts.dto.ErrorResponseDto;
 import com.caelestis.accounts.dto.ResponseDto;
@@ -32,9 +31,6 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class AccountController {
 
-    private final String ERR_MESSAGE_MOBILE = "Mobile number must be 11 digits";
-    private final String VALID_MOBILE_NUMBER = "(^$|[0-9]{11})";
-
     private IAccountsService iAccountsService;
 
     @Operation(
@@ -63,7 +59,9 @@ public class AccountController {
     )
     @GetMapping("/fetch")
     public ResponseEntity<CustomerDto> fetchAccountDetails(
-            @RequestParam @Pattern(regexp = VALID_MOBILE_NUMBER, message = ERR_MESSAGE_MOBILE) String mobileNumber){
+            @RequestParam
+            @Pattern(regexp = AccountsConstants.VALID_MOBILE_NUMBER, message = AccountsConstants.ERR_MESSAGE_MOBILE)
+            String mobileNumber){
         CustomerDto customerDto = iAccountsService.fetchAccount(mobileNumber);
         return ResponseEntity.status(HttpStatus.OK).body(customerDto);
     }
@@ -124,7 +122,9 @@ public class AccountController {
     })
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseDto> deleteAccountDetails(
-            @RequestParam @Pattern(regexp = VALID_MOBILE_NUMBER, message = ERR_MESSAGE_MOBILE) String mobileNumber){
+            @RequestParam
+            @Pattern(regexp = AccountsConstants.VALID_MOBILE_NUMBER, message = AccountsConstants.ERR_MESSAGE_MOBILE)
+            String mobileNumber){
         boolean isDeleted = iAccountsService.deleteAccount(mobileNumber);
         if (isDeleted) {
             return ResponseEntity.status(HttpStatus.OK)

@@ -1,4 +1,4 @@
-package com.caelestis.accounts.impl;
+package com.caelestis.accounts.service.impl;
 
 import com.caelestis.accounts.contants.AccountsConstants;
 import com.caelestis.accounts.dto.AccountsDto;
@@ -13,10 +13,8 @@ import com.caelestis.accounts.repository.AccountsRepository;
 import com.caelestis.accounts.repository.CustomerRepository;
 import com.caelestis.accounts.service.IAccountsService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 

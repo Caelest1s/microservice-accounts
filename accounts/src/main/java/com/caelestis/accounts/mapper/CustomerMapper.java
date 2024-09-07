@@ -1,8 +1,6 @@
 package com.caelestis.accounts.mapper;
 
-import com.caelestis.accounts.dto.AccountsDto;
 import com.caelestis.accounts.dto.CustomerDto;
-import com.caelestis.accounts.entity.Accounts;
 import com.caelestis.accounts.entity.Customer;
 
 public class CustomerMapper {
