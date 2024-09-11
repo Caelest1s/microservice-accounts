@@ -19,3 +19,12 @@ spring:
 
 build:
   version: "1.0"
+
+accounts:
+  message: "Welcome to Bank account related local APIs"
+  contactDetails:
+    name: "Jefferson Celestino - Developer"
+    email: "contato@jeffersoncelestino.dev.br"
+  onCallSupport:
+    - (+55) 031 55555-4444
+    - (+55) 031 55555-1234
