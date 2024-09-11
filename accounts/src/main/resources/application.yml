@@ -1,5 +1,6 @@
 server:
   port: 8080
+
 spring:
   application:
     name: accounts
@@ -16,9 +17,17 @@ spring:
   h2:
     console:
       enabled: true
+  config:
+    import:
+      - "application_qa.yml"
+      - "application_prod.yml"
+  profiles:
+    active:
+      - "qa"
+
 
 build:
-  version: "1.0"
+  version: "3.0"
 
 accounts:
   message: "Welcome to Bank account related local APIs"

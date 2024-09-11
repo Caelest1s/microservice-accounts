@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "qa"
+
+build:
+  version: "2.0"
+
+accounts:
+  message: "Welcome to Bank account related QA APIs"
+  contactDetails:
+    name: " Layonel Londe - QA Lead"
+    email: "contato@layonelonde.qa.br"
+  onCallSupport:
+    - (+55) 051 98765-4321
+    - (+55) 051 99887-5544
