@@ -31,11 +31,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
-public class AccountController {
+public class AccountsController {
 
     private final IAccountsService iAccountsService;
 
-    public AccountController(IAccountsService iAccountsService){
+    public AccountsController(IAccountsService iAccountsService){
         this.iAccountsService = iAccountsService;
     }
 
