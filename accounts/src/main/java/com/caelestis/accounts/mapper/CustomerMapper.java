@@ -1,5 +1,6 @@
 package com.caelestis.accounts.mapper;
 
+import com.caelestis.accounts.dto.CustomerDetailsDto;
 import com.caelestis.accounts.dto.CustomerDto;
 import com.caelestis.accounts.entity.Customer;
 
@@ -12,10 +13,18 @@ public class CustomerMapper {
         return customerDto;
     }
 
+    public static CustomerDetailsDto mapToCustomerDetailsDto(Customer customer, CustomerDetailsDto customerDetailsDto) {
+        customerDetailsDto.setName(customer.getName());
+        customerDetailsDto.setEmail(customer.getEmail());
+        customerDetailsDto.setMobileNumber(customer.getMobileNumber());
+        return customerDetailsDto;
+    }
+
     public static Customer mapToCustomer(CustomerDto customerDto, Customer customer) {
         customer.setName(customerDto.getName());
         customer.setEmail(customerDto.getEmail());
         customer.setMobileNumber(customerDto.getMobileNumber());
         return customer;
     }
+
 }
