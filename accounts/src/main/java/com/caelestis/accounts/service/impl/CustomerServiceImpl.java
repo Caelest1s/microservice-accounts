@@ -17,10 +17,11 @@ import com.caelestis.accounts.service.client.LoansFeignClient;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @Service
 @AllArgsConstructor
-public class CustomerService implements ICustomerService {
+public class CustomerServiceImpl implements ICustomerService {
 
     private CustomerRepository customerRepository;
     private AccountsRepository accountsRepository;
@@ -33,7 +34,7 @@ public class CustomerService implements ICustomerService {
      * @return Customer Details based on a given mobileNumber
      */
     @Override
-    public CustomerDetailsDto fetchCustomerDetails(String mobileNumber) {
+    public CustomerDetailsDto fetchCustomerDetails(String mobileNumber, String correlationId) {
         Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
                 () -> new ResourceNotFoundException("Customer","mobileNumber",mobileNumber)
         );
@@ -42,26 +43,27 @@ public class CustomerService implements ICustomerService {
         );
 
         CustomerDetailsDto customerDetailsDto;
-        customerDetailsDto = assembleCustomerDetailsDto(customer, account, mobileNumber);
+        customerDetailsDto = assembleCustomerDetailsDto(customer, account, mobileNumber, correlationId);
         return customerDetailsDto;
     }
 
-    private CustomerDetailsDto assembleCustomerDetailsDto(Customer customer, Accounts account, String mobileNumber) {
+    private CustomerDetailsDto assembleCustomerDetailsDto(Customer customer, Accounts account, String mobileNumber
+            , String correlationId) {
         CustomerDetailsDto entity;
         entity = CustomerMapper.mapToCustomerDetailsDto(customer, new CustomerDetailsDto());
         entity.setAccountsDto(AccountsMapper.mapToAccountsDto(account, new AccountsDto()));
-        entity.setLoansDto(getLoanDetailsFeign(mobileNumber));
-        entity.setCardsDto(getCardDetailsFeign(mobileNumber));
+        entity.setLoansDto(getLoanDetailsFeign(mobileNumber, correlationId));
+        entity.setCardsDto(getCardDetailsFeign(mobileNumber, correlationId));
         return entity;
     }
 
-    private LoansDto getLoanDetailsFeign(String mobileNumber) {
-        ResponseEntity<LoansDto> loanDtoResponseEntity = loansFeignClient.fetchLoanDetails(mobileNumber);
+    private LoansDto getLoanDetailsFeign(String mobileNumber, String correlationId) {
+        ResponseEntity<LoansDto> loanDtoResponseEntity = loansFeignClient.fetchLoanDetails(correlationId, mobileNumber);
         return loanDtoResponseEntity.getBody();
     }
 
-    private CardsDto getCardDetailsFeign(String mobileNumber) {
-        ResponseEntity<CardsDto> cardDtoResponseEntity = cardsFeignClient.fetchCardDetails(mobileNumber);
+    private CardsDto getCardDetailsFeign(String mobileNumber, String correlationId) {
+        ResponseEntity<CardsDto> cardDtoResponseEntity = cardsFeignClient.fetchCardDetails(correlationId, mobileNumber);
         return cardDtoResponseEntity.getBody();
     }
 }
